@@ -1,0 +1,65 @@
+Codebook for Getting and Cleaning Data, Class Project
+
+
+The dataset I submitted for this project is called tidyDF.txt
+
+Steps used to create this dataset:
+1. Downloaded the source data from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+2. Ran the r script run_analysis.R (found in this GitHub repository). The basic steps in this script are:
+	a. Create temporary files used to merge the test and train data provided at the url above
+	b. Label the activities in the test and train datasets using the activity_labels.txt file
+	c. Add the subjects to the test and train datasets using the subject_test.txt and subject_train.txt files
+	d. Use rbind to merge the test and train datasets
+	e. Label the variables in the merged dataset using the features.txt file
+	f. Create a factor variable to correctly label the activities 
+	g. Create a dataframe called data that is a subsect of the merged data created in steps a-f that contains only the mean and std variables from the source data
+		i. Use the grepl function to search for all variable names with the text "mean()" and create a dataframe called mergedMeans with this subset of variables
+		ii. Use the grepl function to search for all variable names with the text "std()" and create a dataframe called mergedStds with this subset of variables
+		iii. cbind the mergedMeans and mergedStds data frames to create the dataframe "data"
+	h. Create a tidy dataframe that has the average of each variable for each activity and each subject
+		i. Use the aggregate function to create the tidy datafram
+		The result is a dataframe in which the first two columns represent each possible combination of the activity and subject variables
+		Following this are 66 columns, one for each mean or std variable
+		The data in each row of those 66 columns is the mean observations for that subject for that activity
+		ii. Remove the original activy and subject variables, which are no longer needed.
+
+
+Variables included in tidyDF.txt
+"SubjectID" - The ID number assigned by the team running the experiment to identify each subject                  
+"ActivityName" - a factor variable describing the activity performed by each subject (walking, walking up stairs, walking down stairs, sitting, standing, laying)
+
+Also included in the tidy dataset are the following variables. For a description of each variable, see the features_info.txt file from the source data
+In tidyDF, the data for each of these variables represents the mean value of the variable over the total number of times the subject listed in the subject variable performed the activity listed in the activity variable for the given row  
+"tBodyAcc-mean()-X"           "tBodyAcc-mean()-Y"          
+"tBodyAcc-mean()-Z"           "tGravityAcc-mean()-X"       
+"tGravityAcc-mean()-Y"        "tGravityAcc-mean()-Z"       
+"tBodyAccJerk-mean()-X"       "tBodyAccJerk-mean()-Y"      
+"tBodyAccJerk-mean()-Z"       "tBodyGyro-mean()-X"         
+"tBodyGyro-mean()-Y"          "tBodyGyro-mean()-Z"         
+"tBodyGyroJerk-mean()-X"      "tBodyGyroJerk-mean()-Y"     
+"tBodyGyroJerk-mean()-Z"      "tBodyAccMag-mean()"         
+"tGravityAccMag-mean()"       "tBodyAccJerkMag-mean()"     
+"tBodyGyroMag-mean()"         "tBodyGyroJerkMag-mean()"    
+"fBodyAcc-mean()-X"           "fBodyAcc-mean()-Y"          
+"fBodyAcc-mean()-Z"           "fBodyAccJerk-mean()-X"      
+"fBodyAccJerk-mean()-Y"       "fBodyAccJerk-mean()-Z"      
+"fBodyGyro-mean()-X"          "fBodyGyro-mean()-Y"         
+"fBodyGyro-mean()-Z"          "fBodyAccMag-mean()"         
+"fBodyBodyAccJerkMag-mean()"  "fBodyBodyGyroMag-mean()"    
+"fBodyBodyGyroJerkMag-mean()" "tBodyAcc-std()-X"           
+"tBodyAcc-std()-Y"            "tBodyAcc-std()-Z"           
+"tGravityAcc-std()-X"         "tGravityAcc-std()-Y"        
+"tGravityAcc-std()-Z"         "tBodyAccJerk-std()-X"       
+"tBodyAccJerk-std()-Y"        "tBodyAccJerk-std()-Z"       
+"tBodyGyro-std()-X"           "tBodyGyro-std()-Y"          
+"tBodyGyro-std()-Z"           "tBodyGyroJerk-std()-X"      
+"tBodyGyroJerk-std()-Y"       "tBodyGyroJerk-std()-Z"      
+"tBodyAccMag-std()"           "tGravityAccMag-std()"       
+"tBodyAccJerkMag-std()"       "tBodyGyroMag-std()"         
+"tBodyGyroJerkMag-std()"      "fBodyAcc-std()-X"           
+"fBodyAcc-std()-Y"            "fBodyAcc-std()-Z"           
+"fBodyAccJerk-std()-X"        "fBodyAccJerk-std()-Y"       
+"fBodyAccJerk-std()-Z"        "fBodyGyro-std()-X"          
+"fBodyGyro-std()-Y"           "fBodyGyro-std()-Z"          
+"fBodyAccMag-std()"           "fBodyBodyAccJerkMag-std()"  
+"fBodyBodyGyroMag-std()"      "fBodyBodyGyroJerkMag-std()"
